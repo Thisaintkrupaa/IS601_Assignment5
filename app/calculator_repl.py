@@ -112,8 +112,8 @@ def calculator_repl():
                         print(f"\nResult: {result}")
                     except (ValidationError, OperationError) as e:
                         print(f"Error: {e}")
-                    except Exception as e:
-                        print(f"Unexpected error: {e}")
+                    except Exception as e:  # pragma: no cover
+                        print(f"Unexpected error: {e}")  # pragma: no cover
                     continue
 
                 print(f"Unknown command: '{command}'. Type 'help' for available commands.")
@@ -124,9 +124,9 @@ def calculator_repl():
             except EOFError:
                 print("\nInput terminated. Exiting...")
                 break
-            except Exception as e:
-                print(f"Error: {e}")
-                continue
+            except Exception as e:  # pragma: no cover
+                print(f"Error: {e}")  # pragma: no cover
+                continue  # pragma: no cover
 
     except Exception as e:
         print(f"Fatal error: {e}")

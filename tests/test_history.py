@@ -71,3 +71,34 @@ def test_autosave_observer_no_calculation():
     
     with pytest.raises(AttributeError):
         observer.update(None)  # Passing None should raise an exception
+
+
+def test_logging_observer_init():
+    """Test LoggingObserver can be instantiated."""
+    observer = LoggingObserver()
+    assert observer is not None
+
+
+# ── CalculatorMemento tests ──
+from app.calculator_memento import CalculatorMemento
+from decimal import Decimal
+
+def test_memento_to_dict():
+    calc = Calculation(operation="Addition", operand1=Decimal("2"), operand2=Decimal("3"))
+    memento = CalculatorMemento(history=[calc])
+    result = memento.to_dict()
+    assert 'history' in result
+    assert 'timestamp' in result
+    assert len(result['history']) == 1
+    assert result['history'][0]['operation'] == 'Addition'
+
+
+def test_memento_from_dict():
+    calc = Calculation(operation="Addition", operand1=Decimal("2"), operand2=Decimal("3"))
+    memento = CalculatorMemento(history=[calc])
+    data = memento.to_dict()
+    restored = CalculatorMemento.from_dict(data)
+    assert len(restored.history) == 1
+    assert restored.history[0].operation == "Addition"
+    assert restored.history[0].operand1 == Decimal("2")
+    assert restored.history[0].result == Decimal("5")

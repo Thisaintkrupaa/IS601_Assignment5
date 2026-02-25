@@ -130,3 +130,18 @@ def test_from_dict_result_mismatch(caplog):
 
     # Assert
     assert "Loaded calculation result 10 differs from computed result 5" in caplog.text
+
+
+def test_calculation_repr():
+    calc = Calculation(operation="Addition", operand1=Decimal("2"), operand2=Decimal("3"))
+    r = repr(calc)
+    assert "Calculation(operation='Addition'" in r
+    assert "operand1=2" in r
+    assert "operand2=3" in r
+    assert "result=5" in r
+
+
+def test_raise_invalid_root_zero_root():
+    from app.exceptions import OperationError
+    with pytest.raises(OperationError, match="Zero root is undefined"):
+        Calculation(operation="Root", operand1=Decimal("9"), operand2=Decimal("0"))
